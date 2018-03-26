@@ -43,7 +43,21 @@
 # Copyright 2018 Your name here, unless otherwise noted.
 #
 class web {
-       class { 'web::package': }
-       class { 'web::deploy': }
-       class { 'web::service': }
+
+package { 'web software':
+        ensure => present,
+        name => httpd,
+      }
+file { 'deploy web package':
+       ensure => file,
+       path => '/var/www/html/index.html',
+       source => 'puppet:///modules/web/index.html',
+       owner => 'apache',
+       mode => '0644',
+}
+ service { 'web service':
+       ensure => running,
+       name => httpd,
+       enable => true,
+}
 }
